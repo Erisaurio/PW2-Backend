@@ -8,7 +8,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const port = process.env.PROT || 3000
+const port = process.env.PROT || 3001
 
 /**
  * Aqui estan las rutas

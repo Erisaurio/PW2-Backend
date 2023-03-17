@@ -66,4 +66,77 @@ const DeleteUser = async (req, res) => {
     }
 };
 
-module.exports = {getAllUser, getUser, createUser, UpdateUser, DeleteUser};
+const Login = async (req, res) => {
+    try{
+        const {email} = matchedData(req);
+        const {password} = matchedData(req);
+        // Delete normal exprees
+        const data = await usersModel.findOne({email:email , password:password});
+        //Soft Delete
+        //const data = await editorialModel.delete({_id:id});
+        res.send({data});
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_LOGIN")
+    }
+};
+
+const getAllUser1a1 = async (req, res) => {
+    try{
+        const data = await usersModel.aggregate(
+            [
+               {
+                   $lookup:
+                   {
+                       from: "editorials",
+                       localField:"editorial",
+                       foreignField:"_id",
+                       as: "Editorial"
+                   }
+               }
+           ]
+        )
+           console.log(data);
+
+        res.send({ data });
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_GET_ALL_ITEMS")
+    }
+    
+};
+
+const Login1a1 = async (req, res) => {
+    try{
+        const {email} = matchedData(req);
+        const {password} = matchedData(req);
+        const data = await usersModel.aggregate(
+            [
+               {
+                   $lookup:
+                   {
+                       from: "editorials",
+                       localField:"editorial",
+                       foreignField:"_id",
+                       as: "EditorialUsuario"
+                   },
+               },
+               {
+                  $unwind: "$EditorialUsuario"
+               },
+               {
+                  $match: { email: email }
+               }
+           ]
+        )
+           console.log(data);
+
+        res.send({ data });
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_LOGIN")
+    }
+};
+
+module.exports = {getAllUser, getUser, createUser, 
+    UpdateUser, DeleteUser , Login, getAllUser1a1, Login1a1};
