@@ -12,8 +12,8 @@ const validatorCreateUsers = [
     check("password")
     .exists()
     .notEmpty(),
-    check("editorial")
-    .exists(),
+    //check("editorial")
+    //.exists(),
     (req, res, next) => {
         return validateResults(req, res, next)
     }
