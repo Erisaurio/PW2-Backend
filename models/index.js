@@ -4,6 +4,10 @@ const models = {
    Tabla1aM: require('./nosql/Tabla1aM'),
    GenerosModel: require('./nosql/Generos'),
    PeliculasModel: require('./nosql/Peliculas')
+
+   castModel: require('./nosql/cast'),
+   plataformaModel: require('./nosql/plataforma'),
+
 }
 
 module.exports = models
