@@ -17,7 +17,7 @@ const getAllPeliculas = async (req, res) => {
 const getPelicula = async (req, res) => {
     try{
         const {Name} = matchedData(req);
-        console.log(Name);
+        //console.log(Name);
         // Delete normal exprees
         const data = await PeliculasModel.findOne({Name:Name});
         //Soft Delete

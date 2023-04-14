@@ -7,22 +7,27 @@ const PeliculasScheme = new mongoose.Schema(
         unique:true
       },
       Sinopsis:{
-        type:String
+        type:String,
+        default:"",
       },
       Fecha:{
         type:Date
       },       
       Promedio:{
-        type:Number
+        type:Number,
+        default:0,
       },  
       Portada:{
-        type:String
+        type:String,
+        default:"",
       }, 
       Horas:{
-        type:String
+        type:String,
+        default:"",
       },
       Minutos: {
-        type:String
+        type:String,
+        default:"",
       },
       Generos:{
         type:Array,

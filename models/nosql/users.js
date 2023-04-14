@@ -15,6 +15,10 @@ const UserScheme = new mongoose.Schema(
       editorial:{
         type: mongoose.Types.ObjectId
       },
+      filename:{
+        type: String,
+        default:"",
+      },
     },
     {
       timestamps:true,

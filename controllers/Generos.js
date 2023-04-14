@@ -42,6 +42,7 @@ const UpdateGenero = async (req, res) => {
     try{
        
         const {id, ...body} = matchedData(req);
+        console.log(id);
         //console.log(body);
         const data = await GenerosModel.findOneAndUpdate({_id:id},body);
         res.send({data});
@@ -55,6 +56,7 @@ const DeleteGenero = async (req, res) => {
     try{
         req = matchedData(req);
         const {id} = req;
+        console.log(id);
         // Delete normal exprees
         const data = await GenerosModel.deleteOne({_id:id});
         //Soft Delete

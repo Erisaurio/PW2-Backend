@@ -3,15 +3,45 @@ const multer = require("multer");
 // storage es un midleware
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      const pathStorage = `${__dirname}/../storage`;
+  destination: function(req,file,cb){
+     const pathStorage = `${__dirname}/../Storage`;
+     cb(null, pathStorage);
+  },
+  filename: function(req, file, cb) { 
+    const ext = file.originalname.split(".").pop();
+    const filename = `file-${Date.now()}.${ext}`;
+    cb(null, filename)
+  }
+});
+
+const storageUser = multer.diskStorage({
+  destination: function(req,file,cb){
+     const pathStorage = `${__dirname}/../Profile_storage`;
+     cb(null, pathStorage);
+  },
+  filename: function(req, file, cb) {
+    const ext = file.originalname.split(".").pop();
+    const filename = `file-${Date.now()}.${ext}`;
+    cb(null, filename)
+  }
+});
+
+const storageMovie = multer.diskStorage({
+   destination: function(req,file,cb){
+      const pathStorage = `${__dirname}/../Posters_storage`;
       cb(null, pathStorage);
-    },
-    filename: function(req, file, cb) {            //       shift, pop
-      const ext = file.originalname.split(".").pop(); // --> ["name", "png"]
-      const filename = `file-${Date.now()}.${ext}`;
-      cb(null, filename);
-    }
-  });
-  
-  const uploadMiddleware = multer({storage});
+   },
+   filename: function(req, file, cb) {
+     const ext = file.originalname.split(".").pop();
+     const filename = `file-${Date.now()}.${ext}`;
+     cb(null, filename)
+   }
+});
+
+const uploadMiddleware = multer({storage});
+const uploadMiddlewareUserImg = multer({
+  storage:storageUser});
+const uploadMiddlewareMoveImg = multer({
+  storage:storageMovie});
+
+module.exports = {uploadMiddleware,uploadMiddlewareUserImg,uploadMiddlewareMoveImg};
