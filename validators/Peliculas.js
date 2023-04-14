@@ -30,9 +30,6 @@ const validatorDataPelicula = [
     check("Fecha")
     .exists()
     .notEmpty(),
-    check("Portada")
-    .exists()
-    .notEmpty(),
     check("Horas")
     .exists()
     .notEmpty(),
@@ -40,6 +37,8 @@ const validatorDataPelicula = [
     .exists()
     .notEmpty(),
     check("Generos")
+    .exists(),
+    check("Sinopsis")
     .exists(),
     (req, res, next) => {
         return validateResults(req, res, next)
