@@ -43,6 +43,16 @@ const createPelicula = async (req, res) => {
     
 };
 
+const getPeliculasCast = async (req, res) => {
+    try{
+        const { id } = req.params;
+    const moviesWithActor = await PeliculasModel.find({ Cast: id }).populate('Cast');
+    res.send({moviesWithActor});
+    } catch(e){
+       handlehttpError(res,"ERROR_GET_ITEM")
+    }
+};
+
 const UpdatePelicula = async (req, res) => {
     try{
        
@@ -99,4 +109,4 @@ const getPelicula1aM = async (req, res) => {
 };
 
 module.exports = {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula};
+    UpdatePelicula, DeletePelicula, getPeliculasCast};

@@ -32,7 +32,11 @@ const PeliculasScheme = new mongoose.Schema(
       Generos:{
         type:Array,
         default:[],
-      }
+      },
+      Cast: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cast'
+      }]
     },
     {
       timestamps:true,
