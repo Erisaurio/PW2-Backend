@@ -33,7 +33,7 @@ const getPelicula = async (req, res) => {
 const createPelicula = async (req, res) => {
     try{
         const body = matchedData(req);
-        //console.log(body);
+        console.log(body);
         const data = await PeliculasModel.create(body);
         res.send({data});
     }catch(e)
