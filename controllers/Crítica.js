@@ -111,23 +111,15 @@ const createCritica = async (req, res) => {
         const body = matchedData(req);
         //console.log(body);
         const data = await CriticaModel.create(body);
-
-        const criticas = await CriticaModel.find({movieid: body.movieid});
         
-
+        const criticas = await CriticaModel.find({movieid: body.movieid});
         const calificaciones = criticas.map(critica => critica.Calificacion);
-        calSum = calificaciones.reduce(add, 0);
+        const calSum = calificaciones.reduce((acc, curr) => acc + curr);
         calAvg = { "Promedio": calSum/calificaciones.length};
 
-        console.log(calAvg);
+        await PeliculasModel.findOneAndUpdate({_id:body.movieid},calAvg);
 
-
-
-        data2 = await PeliculasModel.findOneAndUpdate({_id:body.movieid},calAvg);
-
-        
-
-        res.send({ data2 });
+        res.send({ data });
     }catch(e)
     {
         handlehttpError(res,"ERROR_CREATE_ITEM")
