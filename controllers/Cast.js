@@ -1,5 +1,6 @@
 const { matchedData } = require('express-validator');
 const {castModel} = require('../models')
+const {PeliculasModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
 const getCasts= async (req, res) => {
@@ -25,10 +26,11 @@ const getCast = async (req, res) => {
     }
 };
 
+
 const createCast = async (req, res) => {
     try{
         const body = matchedData(req);
-        //console.log(body);
+        console.log(body);
         const data = await castModel.create(body);
         res.send({data});
     }catch(e)

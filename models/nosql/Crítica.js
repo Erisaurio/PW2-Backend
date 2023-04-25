@@ -11,27 +11,13 @@ const CríticaScheme = new mongoose.Schema(
         default:1,
       },
       movieid:{
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        ref: "Peliculas"
       },
-      Usuarioid:{
-        type: mongoose.Types.ObjectId
-      },
-      movieidtxt:{
-        type:String,
-        default:"",
-      },
-      Usuarioidtxt:{
-        type:String,
-        default:"",
-      },
-      UsuarioName:{
-        type:String,
-        default:"",
-      },
-      UsuarioPic:{
-        type:String,
-        default:"",
-      },
+      usuarioid:{
+        type: mongoose.Types.ObjectId,
+        ref: "Users"
+      }
     },
     {
       timestamps:true,

@@ -1,5 +1,6 @@
 const { matchedData } = require('express-validator');
 const {CriticaModel} = require('../models')
+const {PeliculasModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
 const getCriticas = async (req, res) => {
@@ -110,7 +111,15 @@ const createCritica = async (req, res) => {
         const body = matchedData(req);
         //console.log(body);
         const data = await CriticaModel.create(body);
-        res.send({data});
+        
+        const criticas = await CriticaModel.find({movieid: body.movieid});
+        const calificaciones = criticas.map(critica => critica.Calificacion);
+        const calSum = calificaciones.reduce((acc, curr) => acc + curr);
+        calAvg = { "Promedio": calSum/calificaciones.length};
+
+        await PeliculasModel.findOneAndUpdate({_id:body.movieid},calAvg);
+
+        res.send({ data });
     }catch(e)
     {
         handlehttpError(res,"ERROR_CREATE_ITEM")
