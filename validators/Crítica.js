@@ -3,9 +3,6 @@ const validateResults  = require("../utils/handleValidator");
 
 
 const validatorCreateCritica = [
-    check("name")
-    .exists()
-    .notEmpty(),
     check("Calificacion")
     .exists()
     .notEmpty(),
@@ -15,17 +12,9 @@ const validatorCreateCritica = [
     check("movieid")
     .isMongoId()
     .notEmpty(),
-    check("Usuarioid")
+    check("usuarioid")
     .isMongoId()
     .notEmpty(), 
-    check("movieidtxt")
-    .exists()
-    .notEmpty(),
-    check("Usuarioidtxt")
-    .exists()
-    .notEmpty(),
-    check("UsuarioPic")
-    .exists(),
     (req, res, next) => {
         return validateResults(req, res, next)
     }

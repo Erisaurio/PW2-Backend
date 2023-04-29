@@ -33,7 +33,7 @@ const getPelicula = async (req, res) => {
 const createPelicula = async (req, res) => {
     try{
         const body = matchedData(req);
-        //console.log(body);
+        console.log(body);
         const data = await PeliculasModel.create(body);
         res.send({data});
     }catch(e)
@@ -41,6 +41,16 @@ const createPelicula = async (req, res) => {
         handlehttpError(res,"ERROR_CREATE_ITEM")
     }
     
+};
+
+const getPeliculasCast = async (req, res) => {
+    try{
+        const { id } = req.params;
+    const moviesWithActor = await PeliculasModel.find({ Cast: id }).populate('Cast');
+    res.send({moviesWithActor});
+    } catch(e){
+       handlehttpError(res,"ERROR_GET_ITEM")
+    }
 };
 
 const UpdatePelicula = async (req, res) => {
@@ -99,4 +109,4 @@ const getPelicula1aM = async (req, res) => {
 };
 
 module.exports = {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula};
+    UpdatePelicula, DeletePelicula, getPeliculasCast};
