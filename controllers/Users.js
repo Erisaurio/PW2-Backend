@@ -14,6 +14,18 @@ const getAllUser = async (req, res) => {
     
 };
 
+const getAllAdmin = async (req, res) => {
+    try{
+        const data = await usersModel.find({role:"Admin"});
+
+        res.send({ data });
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_GET_ALL_ITEMS")
+    }
+    
+};
+
 const getUser = async (req, res) => {
     try{
       req = matchedData(req);
@@ -139,4 +151,4 @@ const Login1a1 = async (req, res) => {
 };
 
 module.exports = {getAllUser, getUser, createUser, 
-    UpdateUser, DeleteUser , Login, getAllUser1a1, Login1a1};
+    UpdateUser, DeleteUser , Login, getAllUser1a1, Login1a1, getAllAdmin};

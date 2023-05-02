@@ -3,12 +3,14 @@ const router = express.Router();
 
 const { validatorCreateUsers, validatorGetUsers, validatorLogin } = require("../validators/users");
 const {getAllUser, getUser, createUser, UpdateUser, DeleteUser, Login,
-    getAllUser1a1, Login1a1} = require("../controllers/Users");
+    getAllUser1a1, Login1a1,getAllAdmin} = require("../controllers/Users");
 
 //router.get("/:id/var:2/var3",getEditorial)
 // http://localhost:3001/api/editorial
 
 router.get("/",getAllUser);
+
+router.get("/admins/",getAllAdmin);
 
 router.get("/:id",validatorGetUsers, getUser)
 
