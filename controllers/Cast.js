@@ -1,10 +1,11 @@
 const { matchedData } = require('express-validator');
-const {editorialModel} = require('../models')
+const {castModel} = require('../models')
+const {PeliculasModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
-const getEditoriales = async (req, res) => {
+const getCasts= async (req, res) => {
     try{
-        const data = await editorialModel.find({});
+        const data = await castModel.find({});
 
         res.send({ data });
     }catch(e)
@@ -14,22 +15,23 @@ const getEditoriales = async (req, res) => {
     
 };
 
-const getEditorial = async (req, res) => {
+const getCast = async (req, res) => {
     try{
       req = matchedData(req);
       const {id} = req;
-      const data = await editorialModel.findById(id);
+      const data = await castModel.findById(id);
       res.send({ data });
     } catch(e){
        handlehttpError(res,"ERROR_GET_ITEM")
     }
 };
 
-const createEditorial = async (req, res) => {
+
+const createCast = async (req, res) => {
     try{
         const body = matchedData(req);
-        //console.log(body);
-        const data = await editorialModel.create(body);
+        console.log(body);
+        const data = await castModel.create(body);
         res.send({data});
     }catch(e)
     {
@@ -38,12 +40,12 @@ const createEditorial = async (req, res) => {
     
 };
 
-const updateEditorial = async (req, res) => {
+const updateCast = async (req, res) => {
     try{
        
         const {id, ...body} = matchedData(req);
         //console.log(body);
-        const data = await editorialModel.findOneAndUpdate({_id:id},body);
+        const data = await castModel.findOneAndUpdate({_id:id},body);
         res.send({data});
     }catch(e)
     {
@@ -51,12 +53,12 @@ const updateEditorial = async (req, res) => {
     }
 };
 
-const deleteEditorial = async (req, res) => {
+const deleteCast = async (req, res) => {
     try{
         req = matchedData(req);
         const {id} = req;
         // Delete normal exprees
-        const data = await editorialModel.deleteOne({_id:id});
+        const data = await castModel.deleteOne({_id:id});
         //Soft Delete
         //const data = await editorialModel.delete({_id:id});
         res.send({data});
@@ -66,4 +68,4 @@ const deleteEditorial = async (req, res) => {
     }
 };
 
-module.exports = {getEditoriales, getEditorial, createEditorial, updateEditorial, deleteEditorial};
+module.exports = {getCasts, getCast, createCast, updateCast, deleteCast};

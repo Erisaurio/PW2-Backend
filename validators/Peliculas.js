@@ -2,18 +2,10 @@ const { check } = require("express-validator");
 const validateResults  = require("../utils/handleValidator");
 
 
-const validatorCreateUsers = [
-    check("name")
+const validatornamePelicual = [
+    check("Name")
     .exists()
     .notEmpty(),
-    check("email")
-    .exists()
-    .notEmpty(),
-    check("password")
-    .exists()
-    .notEmpty(),
-    //check("editorial")
-    //.exists(),
     (req, res, next) => {
         return validateResults(req, res, next)
     }
@@ -21,7 +13,7 @@ const validatorCreateUsers = [
 
 ];
 
-const validatorGetUsers = [
+const validatorGetPelicualid = [
     check("id")
     .exists()
     .notEmpty()
@@ -31,17 +23,31 @@ const validatorGetUsers = [
     }
 ];
 
-const validatorLogin = [
-
-    check("email")
+const validatorDataPelicula = [
+    check("Name")
     .exists()
     .notEmpty(),
-    check("password")
+    check("Fecha")
     .exists()
     .notEmpty(),
+    check("Horas")
+    .exists()
+    .notEmpty(),
+    check("Minutos")
+    .exists()
+    .notEmpty(),
+    check("Generos")
+    .exists(),
+    check("Cast")
+    .exists(),
+    check("Sinopsis")
+    .exists(),
     (req, res, next) => {
         return validateResults(req, res, next)
     }
 ];
 
-module.exports = {validatorCreateUsers, validatorGetUsers, validatorLogin}
+
+
+module.exports = {validatornamePelicual, validatorDataPelicula,
+     validatorGetPelicualid,}

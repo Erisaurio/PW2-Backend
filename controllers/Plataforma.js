@@ -1,12 +1,12 @@
 const { matchedData } = require('express-validator');
-const {editorialModel} = require('../models')
+const {plataformaModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
-const getEditoriales = async (req, res) => {
+const getPlataformas = async (req, res) => {
     try{
-        const data = await editorialModel.find({});
-
+        const data = await plataformaModel.find({})
         res.send({ data });
+
     }catch(e)
     {
         handlehttpError(res,"ERROR_GET_ALL_ITEMS")
@@ -14,22 +14,22 @@ const getEditoriales = async (req, res) => {
     
 };
 
-const getEditorial = async (req, res) => {
+const getPlataforma = async (req, res) => {
     try{
       req = matchedData(req);
       const {id} = req;
-      const data = await editorialModel.findById(id);
+      const data = await plataformaModel.findById(id)
       res.send({ data });
     } catch(e){
        handlehttpError(res,"ERROR_GET_ITEM")
     }
 };
 
-const createEditorial = async (req, res) => {
+const createPlataforma = async (req, res) => {
     try{
         const body = matchedData(req);
         //console.log(body);
-        const data = await editorialModel.create(body);
+        const data = await plataformaModel.create(body);
         res.send({data});
     }catch(e)
     {
@@ -38,12 +38,11 @@ const createEditorial = async (req, res) => {
     
 };
 
-const updateEditorial = async (req, res) => {
+const updatePlataforma = async (req, res) => {
     try{
-       
         const {id, ...body} = matchedData(req);
         //console.log(body);
-        const data = await editorialModel.findOneAndUpdate({_id:id},body);
+        const data = await plataformaModel.findOneAndUpdate({_id:id},body);
         res.send({data});
     }catch(e)
     {
@@ -51,12 +50,12 @@ const updateEditorial = async (req, res) => {
     }
 };
 
-const deleteEditorial = async (req, res) => {
+const deletePlataforma = async (req, res) => {
     try{
         req = matchedData(req);
         const {id} = req;
         // Delete normal exprees
-        const data = await editorialModel.deleteOne({_id:id});
+        const data = await plataformaModel.deleteOne({_id:id});
         //Soft Delete
         //const data = await editorialModel.delete({_id:id});
         res.send({data});
@@ -66,4 +65,4 @@ const deleteEditorial = async (req, res) => {
     }
 };
 
-module.exports = {getEditoriales, getEditorial, createEditorial, updateEditorial, deleteEditorial};
+module.exports = {getPlataformas, getPlataforma, createPlataforma, updatePlataforma, deletePlataforma};

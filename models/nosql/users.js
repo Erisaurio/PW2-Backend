@@ -13,8 +13,12 @@ const UserScheme = new mongoose.Schema(
         default:"User",
       },
       editorial:{
-        type:mongoose.ObjectId,
-      }
+        type: mongoose.Types.ObjectId
+      },
+      filename:{
+        type: String,
+        default:"",
+      },
     },
     {
       timestamps:true,
