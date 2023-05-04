@@ -15,12 +15,6 @@ const validatorCreateComentario = [
     check("Usuarioid")
     .isMongoId()
     .notEmpty(),
-    check("movieidtxt")
-    .exists()
-    .notEmpty(),
-    check("Usuarioidtxt")
-    .exists()
-    .notEmpty(),
     check("UsuarioPic")
     .exists(),
     (req, res, next) => {

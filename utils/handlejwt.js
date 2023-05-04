@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = MasterKey
+const JWT_SECRET = "MasterKey"
 
-const tokenSing = async(user) => {
-    const sing = await jwt.sing
+const tokenSing = async (user) => {
+    const sing = await jwt.sign
     (   {
             _id: user._id,
             role: user.role,
@@ -15,10 +15,10 @@ const tokenSing = async(user) => {
         }
     )
 
-    return sing;
+    return sing
 }
 
-const verifytoken = async(tokenJwt) => {
+const verifytoken = async (tokenJwt) => {
    try{
       return jwt.verify(tokenJwt,JWT_SECRET)
    }catch(e){
