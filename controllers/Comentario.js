@@ -53,8 +53,8 @@ const getComentariosUser = async (req, res) => {
                
            ]
         )
-        console.log(Usuarioid);
-           console.log(data);
+        // console.log(Usuarioid);
+        //    console.log(data);
 
         res.send({ data });
 
@@ -91,7 +91,7 @@ const getComentariosMovie = async (req, res) => {
                
            ]
         )
-           console.log(data);
+        //    console.log(data);
 
         res.send({ data });
   } catch(e){
