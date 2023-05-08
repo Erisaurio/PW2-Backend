@@ -5,6 +5,8 @@ const { validatorCreateUsers, validatorGetUsers, validatorLogin } = require("../
 const {getAllUser, getUser, createUser, UpdateUser, DeleteUser, Login,
     getAllUser1a1, Login1a1,getAllAdmin} = require("../controllers/Users");
 
+const authMiddleware  = require("../middleware/session");  
+
 //router.get("/:id/var:2/var3",getEditorial)
 // http://localhost:3001/api/editorial
 

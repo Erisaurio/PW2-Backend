@@ -2,9 +2,25 @@ const { matchedData } = require('express-validator');
 const {PeliculasModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
+const MEDIA_PATH2 = `${__dirname}/../Posters_storage`;
+
+var fs = require('fs');
+
 const getAllPeliculas = async (req, res) => {
     try{
         const data = await PeliculasModel.find({});
+
+        res.send({ data });
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_GET_ALL_ITEMS")
+    }
+    
+};
+
+const getsomePeliculas = async (req, res) => {
+    try{
+        const data = await PeliculasModel.aggregate([ { $sample: { size: 6 } } ])
 
         res.send({ data });
     }catch(e)
@@ -70,6 +86,21 @@ const DeletePelicula = async (req, res) => {
     try{
         req = matchedData(req);
         const {id} = req;
+
+        const oldimgdata = await PeliculasModel.findById(id);
+        const {Portada} = oldimgdata;
+        const filepath = `${MEDIA_PATH2}/${Portada}`
+
+        if(Portada != ""){
+            fs.exists(`${filepath}`, (exists) => {
+                exists 
+                ?      
+                fs.unlinkSync(filepath) 
+                : 
+                console.log('Not found!');
+            });
+        }
+
         // Delete normal exprees
         const data = await PeliculasModel.deleteOne({_id:id});
         //Soft Delete
@@ -109,4 +140,4 @@ const getPelicula1aM = async (req, res) => {
 };
 
 module.exports = {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula, getPeliculasCast};
+    UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas};

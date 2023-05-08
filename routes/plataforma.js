@@ -4,6 +4,8 @@ const router = express.Router();
 const { validatorCreatePlataforma, validatorGetPlataforma } = require("../validators/plataforma");
 const {getPlataformas, getPlataforma,createPlataforma,updatePlataforma,deletePlataforma} = require("../controllers/Plataforma");
 
+const authMiddleware  = require("../middleware/session");  
+
 // http://localhost:3001/api/plataforma
 
 router.get("/",getPlataformas);

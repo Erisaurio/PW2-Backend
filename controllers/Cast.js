@@ -3,9 +3,26 @@ const {castModel} = require('../models')
 const {PeliculasModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
+const MEDIA_PATH3 = `${__dirname}/../cast_storage`;
+
+var fs = require('fs');
+
 const getCasts= async (req, res) => {
     try{
         const data = await castModel.find({});
+
+        res.send({ data });
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_GET_ALL_ITEMS")
+    }
+    
+};
+
+
+const getsomeCasts = async (req, res) => {
+    try{
+        const data = await castModel.aggregate([ { $sample: { size: 10 } } ])
 
         res.send({ data });
     }catch(e)
@@ -30,7 +47,7 @@ const getCast = async (req, res) => {
 const createCast = async (req, res) => {
     try{
         const body = matchedData(req);
-        console.log(body);
+        //console.log(body);
         const data = await castModel.create(body);
         res.send({data});
     }catch(e)
@@ -58,6 +75,24 @@ const deleteCast = async (req, res) => {
         req = matchedData(req);
         const {id} = req;
         // Delete normal exprees
+
+        const oldimgdata = await castModel.findById(id);
+        const {photo} = oldimgdata;
+        const filepath = `${MEDIA_PATH3}/${photo}`
+        //console.log(oldimgdata);
+        
+
+        if(photo != ""){
+            
+            fs.exists(`${filepath}`, (exists) => {
+                exists 
+                ?      
+                fs.unlinkSync(filepath) 
+                : 
+                console.log('Not found!');
+            });
+        }
+
         const data = await castModel.deleteOne({_id:id});
         //Soft Delete
         //const data = await editorialModel.delete({_id:id});
@@ -68,4 +103,4 @@ const deleteCast = async (req, res) => {
     }
 };
 
-module.exports = {getCasts, getCast, createCast, updateCast, deleteCast};
+module.exports = {getCasts, getCast, createCast, updateCast, deleteCast, getsomeCasts};
