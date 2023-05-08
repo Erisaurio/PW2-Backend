@@ -18,6 +18,16 @@ const getAllPeliculas = async (req, res) => {
     
 };
 
+const getPeliculasGenero = async (req, res) => {
+    try{
+        const { genero } = req.params;
+    const  data = await PeliculasModel.find({ Generos: genero });
+    res.send({ data});
+    } catch(e){
+       handlehttpError(res,"ERROR_GET_ITEM")
+    }
+};
+
 const getsomePeliculas = async (req, res) => {
     try{
         const data = await PeliculasModel.aggregate([ { $sample: { size: 6 } } ])
@@ -73,7 +83,8 @@ const UpdatePelicula = async (req, res) => {
     try{
        
         const {id, ...body} = matchedData(req);
-        //console.log(body);
+        console.log(id);
+        console.log(body);
         const data = await PeliculasModel.findOneAndUpdate({_id:id},body);
         res.send({data});
     }catch(e)
@@ -140,4 +151,4 @@ const getPelicula1aM = async (req, res) => {
 };
 
 module.exports = {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas};
+    UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas, getPeliculasGenero};
