@@ -13,6 +13,15 @@ const validatorCreateCast = [
     }
 ];
 
+const validatorEditCast = [
+    check("name")
+    .exists()
+    .notEmpty(),
+    (req, res, next) => {
+        return validateResults(req, res, next)
+    }
+];
+
 const validatorGetCast = [
     check("id")
     .exists()
@@ -23,4 +32,4 @@ const validatorGetCast = [
     }
 ];
 
-module.exports = {validatorCreateCast, validatorGetCast}
+module.exports = {validatorCreateCast, validatorGetCast, validatorEditCast}

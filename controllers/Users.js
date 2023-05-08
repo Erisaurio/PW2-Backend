@@ -2,6 +2,10 @@ const { matchedData } = require('express-validator');
 const {usersModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
+const MEDIA_PATH1 = `${__dirname}/../Profile_storage`;
+
+var fs = require('fs');
+
 const getAllUser = async (req, res) => {
     try{
         const data = await usersModel.find({});
@@ -67,8 +71,26 @@ const DeleteUser = async (req, res) => {
     try{
         req = matchedData(req);
         const {id} = req;
+
+       
+        const oldimgdata = await usersModel.findById(id);
+        const {filename} = oldimgdata;
+        const filepath = `${MEDIA_PATH1}/${filename}`
+
+        if(filename != ""){
+            console.log("if");
+            fs.exists(`${filepath}`, (exists) => {
+                exists 
+                ?      
+                fs.unlinkSync(filepath) 
+                : 
+                console.log('Not found!');
+            });
+        }
+
         // Delete normal exprees
         const data = await usersModel.deleteOne({_id:id});
+
         //Soft Delete
         //const data = await editorialModel.delete({_id:id});
         res.send({data});
