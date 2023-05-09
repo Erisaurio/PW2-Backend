@@ -17,6 +17,10 @@ const CríticaScheme = new mongoose.Schema(
       usuarioid:{
         type: mongoose.Types.ObjectId,
         ref: "Users"
+      },
+      UsuarioPic:{
+        type:String,
+        default:"",
       }
     },
     {

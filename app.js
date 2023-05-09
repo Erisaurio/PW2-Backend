@@ -9,6 +9,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static("Posters_storage"))
 app.use(express.static("Profile_storage"))
+app.use(express.static("cast_storage"))
 
 const port = process.env.PROT || 3001
 

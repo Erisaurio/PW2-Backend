@@ -2,9 +2,25 @@ const { matchedData } = require('express-validator');
 const {usersModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
+const MEDIA_PATH1 = `${__dirname}/../Profile_storage`;
+
+var fs = require('fs');
+
 const getAllUser = async (req, res) => {
     try{
         const data = await usersModel.find({});
+
+        res.send({ data });
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_GET_ALL_ITEMS")
+    }
+    
+};
+
+const getAllAdmin = async (req, res) => {
+    try{
+        const data = await usersModel.find({role:"Admin"});
 
         res.send({ data });
     }catch(e)
@@ -55,8 +71,26 @@ const DeleteUser = async (req, res) => {
     try{
         req = matchedData(req);
         const {id} = req;
+
+       
+        const oldimgdata = await usersModel.findById(id);
+        const {filename} = oldimgdata;
+        const filepath = `${MEDIA_PATH1}/${filename}`
+
+        if(filename != ""){
+            console.log("if");
+            fs.exists(`${filepath}`, (exists) => {
+                exists 
+                ?      
+                fs.unlinkSync(filepath) 
+                : 
+                console.log('Not found!');
+            });
+        }
+
         // Delete normal exprees
         const data = await usersModel.deleteOne({_id:id});
+
         //Soft Delete
         //const data = await editorialModel.delete({_id:id});
         res.send({data});
@@ -139,4 +173,4 @@ const Login1a1 = async (req, res) => {
 };
 
 module.exports = {getAllUser, getUser, createUser, 
-    UpdateUser, DeleteUser , Login, getAllUser1a1, Login1a1};
+    UpdateUser, DeleteUser , Login, getAllUser1a1, Login1a1, getAllAdmin};

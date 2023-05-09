@@ -2,34 +2,32 @@ const { check } = require("express-validator");
 const validateResults  = require("../utils/handleValidator");
 
 
-const validatorCreateCast = [
+const validatorRegisetItem = [
     check("name")
     .exists()
     .notEmpty(),
-    check("photo")
-    .exists(),
-    (req, res, next) => {
-        return validateResults(req, res, next)
-    }
-];
-
-const validatorEditCast = [
-    check("name")
+    check("password")
     .exists()
     .notEmpty(),
-    (req, res, next) => {
-        return validateResults(req, res, next)
-    }
-];
-
-const validatorGetCast = [
-    check("id")
+    check("email")
     .exists()
     .notEmpty()
-    .isMongoId(),
+    .isEmail(),
     (req, res, next) => {
         return validateResults(req, res, next)
     }
 ];
 
-module.exports = {validatorCreateCast, validatorGetCast, validatorEditCast}
+const validatorLoginT = [
+    check("password")
+    .exists()
+    .notEmpty(),
+    check("email")
+    .exists()
+    .notEmpty(),
+    (req, res, next) => {
+        return validateResults(req, res, next)
+    }
+];
+
+module.exports = {validatorRegisetItem, validatorLoginT}

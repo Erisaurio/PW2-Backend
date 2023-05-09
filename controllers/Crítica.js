@@ -12,7 +12,7 @@ const getCriticas = async (req, res) => {
     {
         handlehttpError(res,"ERROR_GET_ALL_ITEMS")
     }
-    
+
 };
 
 const getCritica = async (req, res) => {
@@ -27,91 +27,133 @@ const getCritica = async (req, res) => {
 };
 
 const getCriticasUser = async (req, res) => {
-  try{
-    ////////
-    // req = matchedData(req);
-    // const {Usuarioid} = req;
-    // const data = await CriticaModel.find({ Usuarioid: Usuarioid} )
-    // res.send({ data });
-    ////////
-        req = matchedData(req);
-        const {Usuarioid} = (req);
-        
-        const data = await CriticaModel.aggregate(
-            [
-               {
-                   $lookup:
-                   {
-                       from: "users",
-                       localField:"Usuarioid",
-                       foreignField:"_id",
-                       as: "Usuarioinfo"
-                   },
-               },
-               {
-                  $unwind: "$Usuarioinfo"
-               },
-               {
-                  $match: { Usuarioidtxt: `${Usuarioid}` }
-               }
-           ]
-        )
-        console.log(`"${Usuarioid}"`);
-           console.log(data);
+    try{
+      ////////
+      // req = matchedData(req);
+      // const {Usuarioid} = req;
+      // const data = await CriticaModel.find({ Usuarioid: Usuarioid} )
+      // res.send({ data });
+      ////////
+          req = matchedData(req);
+          const {Usuarioid} = (req);
+  
+          const data = await CriticaModel.find({Usuarioid:Usuarioid});
 
-        res.send({ data });
+          res.send({data});
+  
+    } catch(e){
+       handlehttpError(res,"ERROR_GET_ITEM")
+    }
+  };
 
-  } catch(e){
-     handlehttpError(res,"ERROR_GET_ITEM")
-  }
-};
+// const getCriticasUser = async (req, res) => {
+//   try{
+//     ////////
+//     // req = matchedData(req);
+//     // const {Usuarioid} = req;
+//     // const data = await CriticaModel.find({ Usuarioid: Usuarioid} )
+//     // res.send({ data });
+//     ////////
+//         req = matchedData(req);
+//         const {Usuarioid} = (req);
+
+//         const data = await CriticaModel.aggregate(
+//             [
+//                {
+//                    $lookup:
+//                    {
+//                        from: "users",
+//                        localField:"Usuarioid",
+//                        foreignField:"_id",
+//                        as: "Usuarioinfo"
+//                    },
+//                },
+//                {
+//                   $unwind: "$Usuarioinfo"
+//                },
+//                {
+//                   $match: { Usuarioidtxt: `${Usuarioid}` }
+//                }
+//            ]
+//         )
+//         //console.log(`"${Usuarioid}"`);
+//            //console.log(data);
+
+//         res.send({ data });
+
+//   } catch(e){
+//      handlehttpError(res,"ERROR_GET_ITEM")
+//   }
+// };
+
+// const getCriticasMovie = async (req, res) => {
+//   try{
+//     //////////
+//     // req = matchedData(req);
+//     // const {movieid} = req;                     //{ name: 'john', age: { $gte: 18 } }
+//     // const data = await CriticaModel.find({ movieid: movieid} )
+//     // res.send({ data });
+//     //////////
+//         req = matchedData(req);
+//         const {movieid} = (req);
+
+//         const data = await CriticaModel.aggregate(
+//             [
+//                {
+//                    $lookup:
+//                    {
+//                        from: "users",
+//                        localField:"Usuarioid",
+//                        foreignField:"_id",
+//                        as: "Usuarioinfo"
+//                    },
+//                },
+//                {
+//                   $unwind: "$Usuarioinfo"
+//                },
+//                {
+//                   $match: { movieid: `${movieid}` }
+//                }
+//            ]
+//         )
+//         //console.log(`"${movieid}"`);
+//            //console.log(JSON.stringify(data));
+
+//         res.send({ data });
+
+//   } catch(e){
+//      handlehttpError(res,"ERROR_GET_ITEM")
+//   }
+// };
 
 const getCriticasMovie = async (req, res) => {
-  try{
-    //////////
-    // req = matchedData(req);
-    // const {movieid} = req;                     //{ name: 'john', age: { $gte: 18 } }
-    // const data = await CriticaModel.find({ movieid: movieid} )
-    // res.send({ data });
-    //////////
+    try{
+      //////////
+      // req = matchedData(req);
+      // const {movieid} = req;                     //{ name: 'john', age: { $gte: 18 } }
+      // const data = await CriticaModel.find({ movieid: movieid} )
+      // res.send({ data });
+      //////////
         req = matchedData(req);
         const {movieid} = (req);
-        
-        const data = await CriticaModel.aggregate(
-            [
-               {
-                   $lookup:
-                   {
-                       from: "users",
-                       localField:"Usuarioid", 
-                       foreignField:"_id",
-                       as: "Usuarioinfo"
-                   },
-               },
-               {
-                  $unwind: "$Usuarioinfo"
-               },
-               {
-                  $match: { movieidtxt: `${movieid}` }
-               }
-           ]
-        )
-        console.log(`"${movieid}"`);
-           console.log(JSON.stringify(data));
 
-        res.send({ data });
+        // Delete normal exprees
+        const data = await CriticaModel.find({movieid:movieid});
 
-  } catch(e){
-     handlehttpError(res,"ERROR_GET_ITEM")
-  }
-};
+        res.send({data});
+
+    } catch(e){
+       handlehttpError(res,"ERROR_GET_ITEM")
+    }
+  };
+  
 
 const createCritica = async (req, res) => {
     try{
         const body = matchedData(req);
         //console.log(body);
         const data = await CriticaModel.create(body);
-        
+
         const criticas = await CriticaModel.find({movieid: body.movieid});
         const calificaciones = criticas.map(critica => critica.Calificacion);
         const calSum = calificaciones.reduce((acc, curr) => acc + curr);
@@ -124,7 +166,7 @@ const createCritica = async (req, res) => {
     {
         handlehttpError(res,"ERROR_CREATE_ITEM")
     }
-    
+
 };
 
 const updateCritica = async (req, res) => {

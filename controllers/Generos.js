@@ -27,6 +27,8 @@ const getGenero = async (req, res) => {
 
 const createGenero = async (req, res) => {
     try{
+        //const user = req.user;
+        // console.log(user)
         const body = matchedData(req);
         //console.log(body);
         const data = await GenerosModel.create(body);
