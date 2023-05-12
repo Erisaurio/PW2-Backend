@@ -5,24 +5,30 @@ const { validatornamePelicual, validatorDataPelicula, validatorGetPelicualid }
 = require("../validators/Peliculas");
 
 const {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula, getPeliculasCast, getPeliculasByCritica} = require("../controllers/Peliculas");
+UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas,getPeliculasGenero, getPeliculasByCritica} = require("../controllers/Peliculas");
 
+
+const authMiddleware  = require("../middleware/session");    
 // http://localhost:3001/api/editorial
 
 router.get("/",getAllPeliculas);
+
+router.get("/Genero/:genero",getPeliculasGenero);
 
 router.get("/Cast/:id", getPeliculasCast);
 
 router.get("/AscPromedio", getPeliculasByCritica);
 
+router.get("/Some6", getsomePeliculas);
+
 //router.get("/:id/var:2/var3",getEditorial)
 router.get("/:Name",validatornamePelicual, getPelicula)
 
-router.post("/", validatorDataPelicula, createPelicula);
+router.post("/", validatorDataPelicula, authMiddleware, createPelicula);
 
-router.put("/:id", validatorGetPelicualid, validatorDataPelicula, UpdatePelicula)
+router.put("/:id", validatorGetPelicualid, validatorDataPelicula, authMiddleware, UpdatePelicula)
 
-router.delete("/:id",validatorGetPelicualid, DeletePelicula)
+router.delete("/:id",validatorGetPelicualid, authMiddleware, DeletePelicula)
 
 /// relaciones 1 a M
 
