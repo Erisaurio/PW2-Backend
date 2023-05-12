@@ -5,13 +5,15 @@ const { validatornamePelicual, validatorDataPelicula, validatorGetPelicualid }
 = require("../validators/Peliculas");
 
 const {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula, getPeliculasCast} = require("../controllers/Peliculas");
+    UpdatePelicula, DeletePelicula, getPeliculasCast, getPeliculasByCritica} = require("../controllers/Peliculas");
 
 // http://localhost:3001/api/editorial
 
 router.get("/",getAllPeliculas);
 
 router.get("/Cast/:id", getPeliculasCast);
+
+router.get("/AscPromedio", getPeliculasByCritica);
 
 //router.get("/:id/var:2/var3",getEditorial)
 router.get("/:Name",validatornamePelicual, getPelicula)

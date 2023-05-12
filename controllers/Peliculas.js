@@ -14,6 +14,18 @@ const getAllPeliculas = async (req, res) => {
     
 };
 
+const getPeliculasByCritica = async (req, res) => {
+    try{
+        const data = await PeliculasModel.find({}).sort({ Promedio: -1 });
+
+        res.send({ data });
+    }catch(e)
+    {
+        handlehttpError(res,"ERROR_GET_ALL_ITEMS")
+    }
+    
+};
+
 const getPelicula = async (req, res) => {
     try{
         const {Name} = matchedData(req);
@@ -104,9 +116,9 @@ const getPelicula1aM = async (req, res) => {
         res.send({data});
     }catch(e)
     {
-        handlehttpError(res,"ERROR_GetPelicula")
+        handlehttpError(res,"ERROR_GetPelicula")    
     }
 };
 
 module.exports = {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula, getPeliculasCast};
+    UpdatePelicula, DeletePelicula, getPeliculasCast, getPeliculasByCritica};
