@@ -5,7 +5,8 @@ const { validatornamePelicual, validatorDataPelicula, validatorGetPelicualid }
 = require("../validators/Peliculas");
 
 const {getAllPeliculas, getPelicula, createPelicula, 
-    UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas,getPeliculasGenero} = require("../controllers/Peliculas");
+UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas,getPeliculasGenero, getPeliculasByCritica} = require("../controllers/Peliculas");
+
 
 const authMiddleware  = require("../middleware/session");    
 // http://localhost:3001/api/editorial
@@ -15,6 +16,8 @@ router.get("/",getAllPeliculas);
 router.get("/Genero/:genero",getPeliculasGenero);
 
 router.get("/Cast/:id", getPeliculasCast);
+
+router.get("/AscPromedio", getPeliculasByCritica);
 
 router.get("/Some6", getsomePeliculas);
 
