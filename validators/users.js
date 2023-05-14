@@ -13,6 +13,27 @@ const validatorCreateUsers = [
     check("password")
     .exists()
     .notEmpty(),
+    //check("editorial")
+    //.exists(),
+    (req, res, next) => {
+        return validateResults(req, res, next)
+    }
+    
+
+];
+
+
+const validatorCreateAdmin = [
+    check("name")
+    .exists()
+    .notEmpty(),
+    check("email")
+    .exists()
+    .notEmpty()
+    .isEmail(),
+    check("password")
+    .exists()
+    .notEmpty(),
     check("role")
     .exists(),
     //check("editorial")
@@ -47,4 +68,4 @@ const validatorLogin = [
     }
 ];
 
-module.exports = {validatorCreateUsers, validatorGetUsers, validatorLogin}
+module.exports = {validatorCreateUsers, validatorGetUsers, validatorLogin, validatorCreateAdmin}

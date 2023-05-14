@@ -6,11 +6,13 @@ const {verifytoken} = require('../utils/handlejwt')
 const authMiddleware = async (req,res, next) => {
 
     try{
-        console.log(req.headers.authorization)
-        if(!req.headers.authorization){
-            handlehttpError(res, "NEED_SESSION", 401);
-            return
+        console.log(req.headers.authorization + " - log req.headers")
+        if(req.headers.authorization == null || req.headers.authorization === undefined){
+            
+            
+            return handlehttpError(res, "NEED_SESSION", 401);
         }
+       
 
         const token = req.headers.authorization.split(' ').pop();
         //console.log(token)
