@@ -19,6 +19,15 @@ const getCasts= async (req, res) => {
     
 };
 
+const wipeCast = async (req, res) => {
+    try {
+        await castModel.deleteMany({});
+        res.send({ message: "Collection wiped successfully" });
+    } catch (e) {
+        handlehttpError(res, "ERROR_WIPE_COLLECTION");
+    }
+  };
+
 
 const getsomeCasts = async (req, res) => {
     try{
@@ -103,4 +112,4 @@ const deleteCast = async (req, res) => {
     }
 };
 
-module.exports = {getCasts, getCast, createCast, updateCast, deleteCast, getsomeCasts};
+module.exports = {getCasts, getCast, createCast, updateCast, deleteCast, getsomeCasts, wipeCast};
