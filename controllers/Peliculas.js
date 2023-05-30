@@ -8,7 +8,7 @@ var fs = require('fs');
 
 const getAllPeliculas = async (req, res) => {
     try{
-        const data = await PeliculasModel.find({});
+        const data = await PeliculasModel.find({}).populate('Cast');
 
         res.send({ data });
     }catch(e)
@@ -22,7 +22,7 @@ const getAllPeliculas = async (req, res) => {
 const getPeliculasByCritica = async (req, res) => {
     try{
         const data = await PeliculasModel.find({}).sort({ Promedio: -1 });
-
+        res.send({ data});
     }
 
     catch(e){
@@ -58,7 +58,7 @@ const getPelicula = async (req, res) => {
         const {Name} = matchedData(req);
         //console.log(Name);
         // Delete normal exprees
-        const data = await PeliculasModel.findOne({Name:Name});
+        const data = await PeliculasModel.findOne({Name:Name}).populate('Cast');
         //Soft Delete
         //const data = await editorialModel.delete({_id:id});
         res.send({data});
@@ -103,6 +103,15 @@ const UpdatePelicula = async (req, res) => {
     }catch(e)
     {
         handlehttpError(res,"ERROR_UPDATE_ITEM")
+    }
+};
+
+const wipePeliculas = async (req, res) => {
+    try {
+        await PeliculasModel.deleteMany({});
+        res.send({ message: "Collection wiped successfully" });
+    } catch (e) {
+        handlehttpError(res, "ERROR_WIPE_COLLECTION");
     }
 };
 
@@ -164,4 +173,4 @@ const getPelicula1aM = async (req, res) => {
 };
 
 module.exports = {getAllPeliculas, getPelicula, createPelicula, UpdatePelicula, DeletePelicula,
-    getPeliculasCast, getsomePeliculas, getPeliculasGenero, getPeliculasByCritica};
+    getPeliculasCast, getsomePeliculas, getPeliculasGenero, getPeliculasByCritica, wipePeliculas};

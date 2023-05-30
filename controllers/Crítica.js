@@ -15,6 +15,16 @@ const getCriticas = async (req, res) => {
 
 };
 
+const wipeCriticas = async (req, res) => {
+    try {
+        await CriticaModel.deleteMany({});
+        res.send({ message: "Collection wiped successfully" });
+    } catch (e) {
+        handlehttpError(res, "ERROR_WIPE_COLLECTION");
+    }
+};
+
+
 const getCritica = async (req, res) => {
     try{
       req = matchedData(req);
@@ -46,6 +56,22 @@ const getCriticasUser = async (req, res) => {
     }
   };
 
+
+  const getCriticasUserMovie = async (req, res) => {
+    try{
+
+
+          const Usuarioid = req.params.Usuarioid;
+          const MovieId = req.params.MovieId;
+  
+          const data = await CriticaModel.find({usuarioid:Usuarioid, movieid:MovieId});
+
+          res.send({data});
+  
+    } catch(e){
+       handlehttpError(res,"ERROR_GET_ITEM")
+    }
+  };
 // const getCriticasUser = async (req, res) => {
 //   try{
 //     ////////
@@ -171,9 +197,22 @@ const createCritica = async (req, res) => {
 
 const updateCritica = async (req, res) => {
     try{
-        const {id, ...body} = matchedData(req);
-        //console.log(body);
-        const data = await CriticaModel.findOneAndUpdate({_id:id},body);
+        const id = req.params.id
+        const { Calificacion } = req.body; // Only extract the Calificacion field from the body
+
+        const data = await CriticaModel.findOneAndUpdate(
+          { _id: id },
+          { $set: { Calificacion } }, // Use $set operator to update only the Calificacion field
+          { new: true } // Return the updated document
+        );
+
+        const criticas = await CriticaModel.find({movieid: data.movieid});
+        const calificaciones = criticas.map(critica => critica.Calificacion);
+        const calSum = calificaciones.reduce((acc, curr) => acc + curr);
+        calAvg = { "Promedio": calSum/calificaciones.length};
+
+        await PeliculasModel.findOneAndUpdate({_id:data.movieid},calAvg);
+
         res.send({data});
     }catch(e)
     {
@@ -196,4 +235,4 @@ const deleteCritica = async (req, res) => {
     }
 };
 
-module.exports = { getCriticas, getCritica, getCriticasUser, getCriticasMovie, createCritica, updateCritica, deleteCritica};
+module.exports = { getCriticas, getCritica, getCriticasUser, getCriticasMovie, createCritica, updateCritica, deleteCritica, getCriticasUserMovie, wipeCriticas};

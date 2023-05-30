@@ -22,7 +22,7 @@ router.post("/", validatorCreateUsers, createUser);
 
 router.post("/admins/", validatorCreateAdmin, authMiddleware, createUser);
 
-router.put("/:id", validatorGetUsers, validatorCreateUsers, UpdateUser)
+router.put("/:id", UpdateUser)
 
 router.delete("/:id",validatorGetUsers, authMiddleware, DeleteUser)
 

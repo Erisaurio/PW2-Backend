@@ -42,6 +42,8 @@ const validatorDataPelicula = [
     .exists(),
     check("Sinopsis")
     .exists(),
+    check("Portada")
+    .exists(),
     (req, res, next) => {
         return validateResults(req, res, next)
     }

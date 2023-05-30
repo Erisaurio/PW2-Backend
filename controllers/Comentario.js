@@ -1,6 +1,7 @@
 const { matchedData } = require('express-validator');
 const {ComentarioModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
+const mongoose = require('mongoose');
 
 const getComentarios = async (req, res) => {
     try{
@@ -64,38 +65,40 @@ const getComentariosUser = async (req, res) => {
 };
 
 const getComentariosMovie = async (req, res) => {
-  try{
-    ////////////
-    // req = matchedData(req);
-    // const {movieid} = req;                     //{ name: 'john', age: { $gte: 18 } }
-    // const data = await ComentarioModel.find({ movieid: movieid} )
-    // res.send({ data });
-    /////////////
-        req = matchedData(req);
-        const {movieid} = (req);
-       
-        const data = await ComentarioModel.aggregate(
-            [
-               {
-                   $lookup:
-                   {
-                       from: "users",
-                       localField:"Usuarioid", 
-                       foreignField:"_id",
-                       as: "Usuarioinfo"
-                   },
-               },
-               {
-                  $unwind: "$Usuarioinfo"
-               },
-               
-           ]
-        )
-        //    console.log(data);
+    try {
+      const  Movie  = req.params.movieid;
+  
+      const data = await ComentarioModel.aggregate([
+        {
+          $match: {
+            movieid: mongoose.Types.ObjectId(Movie) // Convert movieid to ObjectId if it's a string
+          }
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "Usuarioid",
+            foreignField: "_id",
+            as: "Usuarioinfo"
+          }
+        },
+        {
+          $unwind: "$Usuarioinfo"
+        }
+      ]);
+  
+      res.send({ data });
+    } catch (e) {
+      handlehttpError(res, "ERROR_GET_ITEM");
+    }
+  };
 
-        res.send({ data });
-  } catch(e){
-     handlehttpError(res,"ERROR_GET_ITEM")
+const wipeComentarios = async (req, res) => {
+  try {
+      await ComentarioModel.deleteMany({});
+      res.send({ message: "Collection wiped successfully" });
+  } catch (e) {
+      handlehttpError(res, "ERROR_WIPE_COLLECTION");
   }
 };
 
@@ -104,7 +107,7 @@ const createComentario = async (req, res) => {
         const body = matchedData(req);
         //console.log(body);
         const data = await ComentarioModel.create(body);
-        res.send({data});
+        res.send(data);
     }catch(e)
     {
         handlehttpError(res,"ERROR_CREATE_ITEM")
@@ -139,4 +142,4 @@ const deleteComentario = async (req, res) => {
     }
 };
 
-module.exports = { getComentarios, getComentario, getComentariosUser, getComentariosMovie, createComentario, updateComentario, deleteComentario };
+module.exports = { getComentarios, getComentario, getComentariosUser, getComentariosMovie, createComentario, updateComentario, deleteComentario, wipeComentarios };

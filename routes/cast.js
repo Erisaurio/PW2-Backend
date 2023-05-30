@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { validatorCreateCast, validatorGetCast,validatorEditCast } = require("../validators/cast");
-const {getCasts, getCast,createCast,updateCast,deleteCast,getsomeCasts} = require("../controllers/Cast");
+const {getCasts, getCast,createCast,updateCast,deleteCast,getsomeCasts, wipeCast} = require("../controllers/Cast");
 
 // http://localhost:3001/api/cast
 
@@ -18,5 +18,7 @@ router.post("/", validatorCreateCast, createCast);
 router.put("/:id", validatorGetCast, validatorEditCast, updateCast);
 
 router.delete("/:id",validatorGetCast, deleteCast);
+
+router.delete("/Wipe/Cast", wipeCast);
 
 module.exports = router

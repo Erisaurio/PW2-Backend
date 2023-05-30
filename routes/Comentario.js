@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { validatorCreateComentario, validatorGetComentario, validatorGetComentarioPeli, validatorGetComentarioUser } = require("../validators/Comentario");
-const { getComentarios, getComentario, getComentariosUser, getComentariosMovie, createComentario, updateComentario, deleteComentario } = require("../controllers/Comentario");
+const { getComentarios, getComentario, getComentariosUser, getComentariosMovie, createComentario, updateComentario, deleteComentario, wipeComentarios } = require("../controllers/Comentario");
 
 // http://localhost:3001/api/plataforma
 
@@ -19,5 +19,7 @@ router.post("/", validatorCreateComentario, createComentario);
 router.put("/:id", validatorCreateComentario, validatorGetComentario, updateComentario)
 
 router.delete("/:id", validatorGetComentario, deleteComentario)
+
+router.delete("/Wipe/Comentarios", wipeComentarios)
 
 module.exports = router

@@ -5,7 +5,7 @@ const { validatornamePelicual, validatorDataPelicula, validatorGetPelicualid }
 = require("../validators/Peliculas");
 
 const {getAllPeliculas, getPelicula, createPelicula, 
-UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas,getPeliculasGenero, getPeliculasByCritica} = require("../controllers/Peliculas");
+UpdatePelicula, DeletePelicula, getPeliculasCast, getsomePeliculas,getPeliculasGenero, getPeliculasByCritica, wipePeliculas} = require("../controllers/Peliculas");
 
 
 const authMiddleware  = require("../middleware/session");    
@@ -29,6 +29,8 @@ router.post("/", validatorDataPelicula, authMiddleware, createPelicula);
 router.put("/:id", validatorGetPelicualid, validatorDataPelicula, authMiddleware, UpdatePelicula)
 
 router.delete("/:id",validatorGetPelicualid, authMiddleware, DeletePelicula)
+
+router.delete("/Wipe", wipePeliculas)
 
 /// relaciones 1 a M
 

@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator');
-const {usersModel} = require('../models')
+const { usersModel} = require('../models')
 const {handlehttpError} = require('../utils/handlehttpError')
 
 const MEDIA_PATH1 = `${__dirname}/../Profile_storage`;
@@ -57,7 +57,8 @@ const createUser = async (req, res) => {
 const UpdateUser = async (req, res) => {
     try{
        
-        const {id, ...body} = matchedData(req);
+        const body =req.body
+        const id = req.params.id;
         //console.log(body);
         const data = await usersModel.findOneAndUpdate({_id:id},body);
         res.send({data});
